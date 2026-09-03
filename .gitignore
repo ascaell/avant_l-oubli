@@ -1,0 +1,15 @@
+*.o
+*.a
+*.so
+*.out
+*.exe
+build/
+dist/
+bin/
+.vscode/
+.idea/
+.DS_Store
+*.log
+avant_l_oubli
+*.dll
+avant_l_oubli.exe
