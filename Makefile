@@ -19,19 +19,20 @@ $(error raylib introuvable via pkg-config. Verifie PKG_CONFIG_PATH \
 (ex: export PKG_CONFIG_PATH="$$(brew --prefix raylib)/lib/pkgconfig"))
 endif
 
-CFLAGS		=	-Wall -Wextra -std=c11 -Isrc -Isrc/core $(RAYLIB_CFLAGS)
+CFLAGS		=	-Wall -Wextra -std=c11 -Isrc -Isrc/core -Isrc/player $(RAYLIB_CFLAGS)
 LDFLAGS		=	$(RAYLIB_LIBS) -lm
 
-SRC			=	src/main.c				\
-				src/core/game.c			\
-				src/core/game_state.c	\
-				src/core/window.c		\
-				src/core/clock.c		\
-				src/core/events.c		\
-				src/core/camera.c		\
-				src/core/scene.c		\
-				src/core/modules.c		\
-				src/core/modules_setup.c
+SRC			=	src/main.c					\
+				src/core/game.c				\
+				src/core/game_state.c		\
+				src/core/window.c			\
+				src/core/clock.c			\
+				src/core/events.c			\
+				src/core/camera.c			\
+				src/core/scene.c			\
+				src/core/modules.c			\
+				src/core/modules_setup.c	\
+				src/player/player.c
 
 OBJ			=	$(SRC:.c=.o)
 
