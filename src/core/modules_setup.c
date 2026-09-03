@@ -19,6 +19,7 @@
 */
 
 #include "modules.h"
+#include "player/player.h"
 
 /*
 ** Exemple de branchement, a decommenter et adapter quand un module
@@ -39,5 +40,9 @@
 */
 void modules_setup(modules_t *modules)
 {
-    (void)modules;
+    module_set(&modules->player,
+        player_create(),
+        player_update,
+        player_render,
+        player_destroy);
 }
