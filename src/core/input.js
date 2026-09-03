@@ -16,10 +16,6 @@ export class Input {
     }
 
     _installListeners() {
-        // Évite d'installer deux fois les listeners si Input est ré-instancié.
-        if (Input._installed) return;
-        Input._installed = true;
-
         window.addEventListener('keydown', (e) => {
             // Ignore le key repeat du navigateur : si déjà maintenue, ce n'est
             // pas une nouvelle pression.
@@ -90,5 +86,3 @@ export class Input {
         this.mouseButtonsReleased.clear();
     }
 }
-
-Input._installed = false;
