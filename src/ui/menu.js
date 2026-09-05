@@ -55,9 +55,9 @@ export class Menu {
         this.resumeButton.setDisabled(!hasSave);
     }
 
-    update(input) {
+    update() {
         for (const button of this.buttons) {
-            button.update(input);
+            button.update();
         }
     }
 
