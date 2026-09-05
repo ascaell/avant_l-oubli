@@ -1,17 +1,16 @@
-// ============================================================
-//  AVANT L'OUBLI — src/ui/dialog.js
-//  Responsable : Marie-Joseph · Branche : feature/ui
-//
-//  Boîte de dialogue simple : affiche un nom + une phrase, avec un
-//  bouton pour passer à la phrase suivante.
-// ============================================================
+/*
+** EPITECH PROJECT, 2026
+** avant_l-oubli
+** File description:
+** dialog.js
+*/
 
 import { Button } from './button.js';
 
-const BG_COLOR = 'rgba(23, 28, 36, 0.9)'; // noir bleuté semi-transparent
-const BORDER_COLOR = '#E6B85C'; // doré
-const NAME_COLOR = '#D99A45';   // ocre
-const TEXT_COLOR = '#E8C99B';   // beige
+const BG_COLOR = 'rgba(23, 28, 36, 0.9)';
+const BORDER_COLOR = '#E6B85C';
+const NAME_COLOR = '#D99A45';
+const TEXT_COLOR = '#E8C99B';
 
 const BOX_HEIGHT = 140;
 const PADDING = 20;
@@ -34,7 +33,6 @@ export class Dialog {
         );
     }
 
-    /** Démarre un dialogue : un nom d'interlocuteur + une liste de phrases. */
     start(speakerName, lines) {
         this.speakerName = speakerName;
         this.lines = lines;

@@ -1,14 +1,9 @@
-// ============================================================
-//  AVANT L'OUBLI — src/ui/inventory.js
-//  Responsable : Marie-Joseph · Branche : feature/ui
-//
-//  Grille d'inventaire à slots limités.
-//  Nombre de slots PROVISOIRE (12 = 4 colonnes x 3 lignes, comme
-//  l'exemple de docs/09_REPARTITION.md) : "le nombre de slots doit
-//  être défini avec l'équipe", à ajuster si besoin plus tard.
-//  Ne connaît aucun système de jeu réel : reçoit juste une liste
-//  d'objets simples via setItems() (ex: [{ name: 'Potion' }, ...]).
-// ============================================================
+/*
+** EPITECH PROJECT, 2026
+** avant_l-oubli
+** File description:
+** inventory.js
+*/
 
 const SLOT_COUNT = 12;
 const COLUMNS = 4;
@@ -16,27 +11,24 @@ const SLOT_SIZE = 50;
 const SLOT_GAP = 8;
 
 const COLOR = {
-    slotBg: '#171C24',    // noir bleuté
-    slotBorder: '#E6B85C', // doré
-    itemBg: '#B85C38',    // terracotta
-    text: '#E8C99B',      // beige
+    slotBg: '#171C24',
+    slotBorder: '#E6B85C',
+    itemBg: '#B85C38',
+    text: '#E8C99B',
 };
 
 export class Inventory {
     constructor(x, y) {
         this.x = x;
         this.y = y;
-        this.items = []; // liste d'objets { name } dans l'ordre des slots
+        this.items = [];
     }
 
-    /** Remplace le contenu affiché. Les slots au-delà de SLOT_COUNT sont ignorés. */
     setItems(items) {
         this.items = items.slice(0, SLOT_COUNT);
     }
 
     update() {
-        // Rien à animer pour l'instant ; méthode gardée pour respecter
-        // la même interface (update/render) que les autres systèmes.
     }
 
     render(ctx) {

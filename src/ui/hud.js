@@ -1,17 +1,16 @@
-// ============================================================
-//  AVANT L'OUBLI — src/ui/hud.js
-//  Responsable : Marie-Joseph · Branche : feature/ui
-//
-//  Affichage pendant le jeu : PV, niveau, XP.
-//  Ne connaît pas Player/Stats : reçoit juste des nombres via setData().
-// ============================================================
+/*
+** EPITECH PROJECT, 2026
+** avant_l-oubli
+** File description:
+** hud.js
+*/
 
 const COLOR = {
-    barBg: '#171C24',      // fond de barre (noir bleuté)
-    barBorder: '#E6B85C',  // doré
-    hpFill: '#B85C38',     // terracotta
-    xpFill: '#E6B85C',     // doré
-    text: '#E8C99B',       // beige
+    barBg: '#171C24',
+    barBorder: '#E6B85C',
+    hpFill: '#B85C38',
+    xpFill: '#E6B85C',
+    text: '#E8C99B',
 };
 
 const HP_BAR_W = 200;
@@ -29,14 +28,11 @@ export class Hud {
         this.data = defaultData();
     }
 
-    /** À appeler par l'intégrateur avec les stats du joueur : { hp, maxHp, level, xp, xpToNext } */
     setData(data) {
         this.data = { ...defaultData(), ...data };
     }
 
     update(dt) {
-        // Rien à animer pour l'instant ; la méthode existe pour garder
-        // la même interface (update/render) que les autres systèmes.
     }
 
     render(ctx) {
@@ -53,7 +49,6 @@ export class Hud {
         ctx.fillText(`Niveau ${level}`, MARGIN, MARGIN + HP_BAR_H + 8 + XP_BAR_H + 16);
     }
 
-    /** Dessine une barre de fond + un remplissage proportionnel à `ratio` (0..1). */
     _renderBar(ctx, x, y, w, h, ratio, fillColor) {
         const clamped = Math.max(0, Math.min(1, ratio));
 

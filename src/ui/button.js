@@ -1,21 +1,20 @@
-// ============================================================
-//  AVANT L'OUBLI — src/ui/button.js
-//  Responsable : Marie-Joseph · Branche : feature/ui
-//
-//  Bouton Canvas réutilisable : 3 états (normal / hover / pressed).
-//  Utilisé par menu.js, hud.js, dialog.js, settings.js.
-// ============================================================
+/*
+** EPITECH PROJECT, 2026
+** avant_l-oubli
+** File description:
+** button.js
+*/
 
 import { getMouse } from '../core/input.js';
 
 const COLOR = {
-    normal: '#B85C38',    // terracotta
-    hover: '#D99A45',     // ocre
-    pressed: '#8E4228',   // terracotta assombri
-    disabled: '#59636E',  // gris froid (futur)
-    border: '#E6B85C',    // doré
-    text: '#E8C99B',      // beige
-    textDisabled: '#7A858F', // gris acier
+    normal: '#B85C38',
+    hover: '#D99A45',
+    pressed: '#8E4228',
+    disabled: '#59636E',
+    border: '#E6B85C',
+    text: '#E8C99B',
+    textDisabled: '#7A858F',
 };
 
 export class Button {
@@ -28,10 +27,9 @@ export class Button {
         this.onClick = onClick;
         this.state = 'normal';
         this.disabled = false;
-        this._wasDown = false; // état de la souris à la frame précédente, pour détecter le clic
+        this._wasDown = false;
     }
 
-    /** Vrai si (px, py) tombe dans le rectangle du bouton. */
     _contains(px, py) {
         return px >= this.x && px <= this.x + this.w
             && py >= this.y && py <= this.y + this.h;
@@ -47,7 +45,7 @@ export class Button {
             return;
         }
 
-        const mouse = getMouse(); // { x, y, down }
+        const mouse = getMouse();
 
         if (!this._contains(mouse.x, mouse.y)) {
             this.state = 'normal';
@@ -57,8 +55,6 @@ export class Button {
 
         this.state = mouse.down ? 'pressed' : 'hover';
 
-        // "Clic" = transition relâché → maintenu, détectée nous-mêmes puisque
-        // getMouse() ne donne que l'état courant (pas de "pressed" one-shot).
         if (!this._wasDown && mouse.down && this.onClick) {
             this.onClick();
         }

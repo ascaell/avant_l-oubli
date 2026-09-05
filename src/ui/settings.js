@@ -1,18 +1,15 @@
-// ============================================================
-//  AVANT L'OUBLI — src/ui/settings.js
-//  Responsable : Marie-Joseph · Branche : feature/ui
-//
-//  Écran réglages : volume musique/effets, plein écran, commandes.
-//  Pas de système audio branché côté core pour l'instant : cet écran
-//  garde juste les valeurs en local (musicVolume, sfxVolume,
-//  fullscreen), lisibles via getSettings() quand ce sera nécessaire.
-// ============================================================
+/*
+** EPITECH PROJECT, 2026
+** avant_l-oubli
+** File description:
+** settings.js
+*/
 
 import { Button } from './button.js';
 
-const BG_COLOR = '#171C24';    // noir bleuté
-const TITLE_COLOR = '#E6B85C'; // doré
-const TEXT_COLOR = '#E8C99B';  // beige
+const BG_COLOR = '#171C24';
+const TITLE_COLOR = '#E6B85C';
+const TEXT_COLOR = '#E8C99B';
 
 const VOLUME_STEP = 10;
 const VOLUME_MIN = 0;
@@ -76,7 +73,6 @@ export class Settings {
         this.fullscreenButton.label = this.fullscreen ? 'PLEIN ECRAN : ON' : 'PLEIN ECRAN : OFF';
     }
 
-    /** Valeurs actuelles, à lire par l'intégrateur. */
     getSettings() {
         return {
             musicVolume: this.musicVolume,

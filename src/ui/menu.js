@@ -1,29 +1,20 @@
-// ============================================================
-//  AVANT L'OUBLI — src/ui/menu.js
-//  Responsable : Marie-Joseph · Branche : feature/ui
-//
-//  Menu principal : START / RESUME / SETTINGS / QUIT.
-//  Ne connaît rien du reste du jeu : il appelle juste les callbacks
-//  qu'on lui donne (pattern déjà annoncé dans 09_REPARTITION.md,
-//  "Marie-Joseph ne doit pas ... mélanger toute la logique du jeu
-//  dans les fichiers UI").
-// ============================================================
+/*
+** EPITECH PROJECT, 2026
+** avant_l-oubli
+** File description:
+** menu.js
+*/
 
 import { Button } from './button.js';
 
-const TITLE_COLOR = '#E6B85C'; // doré
-const BG_COLOR = '#171C24';    // noir bleuté (futur)
+const TITLE_COLOR = '#E6B85C';
+const BG_COLOR = '#171C24';
 
 const BUTTON_W = 220;
 const BUTTON_H = 50;
 const BUTTON_GAP = 20;
 
 export class Menu {
-    /**
-     * @param {number} width  largeur du canvas
-     * @param {number} height hauteur du canvas
-     * @param {{onStart, onResume, onSettings, onQuit}} callbacks
-     */
     constructor(width, height, callbacks) {
         this.width = width;
         this.height = height;
@@ -50,7 +41,6 @@ export class Menu {
         this.titleY = startY - 60;
     }
 
-    /** À appeler par l'intégrateur avec le résultat de SaveSystem.hasSave(). */
     setHasSave(hasSave) {
         this.resumeButton.setDisabled(!hasSave);
     }
@@ -80,13 +70,8 @@ export class Menu {
 const ESC_BUTTON_W = 220;
 const ESC_BUTTON_H = 40;
 const ESC_BUTTON_GAP = 10;
-const ESC_BG_COLOR = 'rgba(23, 28, 36, 0.85)'; // noir bleuté semi-transparent
+const ESC_BG_COLOR = 'rgba(23, 28, 36, 0.85)';
 
-/**
- * Menu ESC (pause pendant le jeu) : CHARACTER / EQUIPMENT / INVENTORY /
- * CHARACTERISTICS / SAVE / LOAD / SETTINGS / CONTROLS / FERMER.
- * Comme Menu, il ne fait qu'appeler les callbacks reçus.
- */
 export class EscMenu {
     constructor(width, height, callbacks) {
         this.width = width;
