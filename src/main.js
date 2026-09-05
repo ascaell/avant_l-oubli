@@ -1,38 +1,30 @@
-import { Game } from './core/game.js';
-import { Input } from './core/input.js';
-import { Camera } from './core/camera.js';
-import { Assets } from './core/assets.js';
-import { SaveSystem } from './core/save.js';
+import { Player } from './player/player.js';
+import './core/input.js';
 
-// Une seule instance de chaque système Core.
-const game = new Game();
-const input = new Input();
-const camera = new Camera();
-const assets = new Assets();
-const save = new SaveSystem();
+const canvas = document.getElementById('game');
+const ctx = canvas.getContext('2d');
 
-// Branchement des systèmes sur l'orchestrateur.
-game.systems.input = input;
-game.systems.camera = camera;
-game.systems.assets = assets;
-game.systems.save = save;
+function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+window.addEventListener('resize', resize);
+resize();
 
-// Player, World, Combat et UI restent null pour cette V1.
+const player = new Player(canvas.width / 2, canvas.height / 2);
+let lastTime = 0;
 
-// Démarrage.
-game.init();
-game.start();
+function gameLoop(timestamp) {
+    const dt = (timestamp - lastTime) / 1000;
+    lastTime = timestamp;
 
-// --- Vérification console ---
-console.log('[Core] initialisé.');
-console.log('[Core] systèmes branchés :', {
-    input: game.systems.input !== null,
-    camera: game.systems.camera !== null,
-    assets: game.systems.assets !== null,
-    save: game.systems.save !== null,
-    player: game.systems.player,   // null attendu
-    world: game.systems.world,    // null attendu
-    combat: game.systems.combat,   // null attendu
-    ui: game.systems.ui,       // null attendu
-});
-console.log('[Core] état du jeu :', game.state);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.imageSmoothingEnabled = false;
+
+    player.update(dt);
+    player.render(ctx);
+
+    requestAnimationFrame(gameLoop);
+}
+
+requestAnimationFrame(gameLoop);
