@@ -11,7 +11,6 @@ export class Game {
         this.rafId = null;
         this.lastTime = 0;
 
-        // Slots des systèmes, branchés plus tard. game.js ne connaît pas leur logique.
         this.systems = {
             input: null,
             camera: null,
@@ -25,13 +24,11 @@ export class Game {
     }
 
     init() {
-        // Point d'entrée pour brancher les systèmes une fois disponibles.
-        // Ex. plus tard : this.systems.input = new Input();
         this.changeState(GameState.MENU);
     }
 
     start() {
-        if (this.running) return; // empêche plusieurs boucles simultanées
+        if (this.running) return;
         this.running = true;
         this.lastTime = performance.now();
         this.rafId = requestAnimationFrame((t) => this.loop(t));
@@ -53,7 +50,7 @@ export class Game {
     loop(timestamp) {
         if (!this.running) return;
 
-        const deltaTime = (timestamp - this.lastTime) / 1000; // en secondes
+        const deltaTime = (timestamp - this.lastTime) / 1000;
         this.lastTime = timestamp;
 
         this.update(deltaTime);
@@ -65,31 +62,22 @@ export class Game {
     update(deltaTime) {
         switch (this.state) {
             case GameState.PLAYING:
-                // Dispatch vers les systèmes une fois branchés :
-                // this.systems.player?.update(deltaTime);
-                // this.systems.world?.update(deltaTime);
-                // this.systems.combat?.update(deltaTime);
-                // this.systems.ui?.update(deltaTime);
                 break;
             case GameState.PAUSED:
-                // this.systems.ui?.update(deltaTime);
                 break;
             case GameState.MENU:
-                // this.systems.ui?.update(deltaTime);
                 break;
         }
+
+        this.systems.input?.update();
     }
 
     render() {
         switch (this.state) {
             case GameState.PLAYING:
-                // this.systems.world?.render();
-                // this.systems.player?.render();
-                // this.systems.ui?.render();
                 break;
             case GameState.PAUSED:
             case GameState.MENU:
-                // this.systems.ui?.render();
                 break;
         }
     }
