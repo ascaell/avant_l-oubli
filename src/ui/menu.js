@@ -76,3 +76,88 @@ export class Menu {
         }
     }
 }
+
+const ESC_BUTTON_W = 220;
+const ESC_BUTTON_H = 40;
+const ESC_BUTTON_GAP = 10;
+const ESC_BG_COLOR = 'rgba(23, 28, 36, 0.85)'; // noir bleuté semi-transparent
+
+/**
+ * Menu ESC (pause pendant le jeu) : CHARACTER / EQUIPMENT / INVENTORY /
+ * CHARACTERISTICS / SAVE / LOAD / SETTINGS / CONTROLS / FERMER.
+ * Comme Menu, il ne fait qu'appeler les callbacks reçus.
+ */
+export class EscMenu {
+    constructor(width, height, callbacks) {
+        this.width = width;
+        this.height = height;
+        this.callbacks = callbacks;
+        this.visible = false;
+
+        const count = 9;
+        const totalHeight = count * ESC_BUTTON_H + (count - 1) * ESC_BUTTON_GAP;
+        const startY = height / 2 - totalHeight / 2;
+        const x = width / 2 - ESC_BUTTON_W / 2;
+        const rowY = (index) => startY + index * (ESC_BUTTON_H + ESC_BUTTON_GAP);
+
+        this.characterButton = new Button(x, rowY(0), ESC_BUTTON_W, ESC_BUTTON_H, 'CHARACTER',
+            () => this.callbacks.onCharacter && this.callbacks.onCharacter());
+
+        this.equipmentButton = new Button(x, rowY(1), ESC_BUTTON_W, ESC_BUTTON_H, 'EQUIPMENT',
+            () => this.callbacks.onEquipment && this.callbacks.onEquipment());
+
+        this.inventoryButton = new Button(x, rowY(2), ESC_BUTTON_W, ESC_BUTTON_H, 'INVENTORY',
+            () => this.callbacks.onInventory && this.callbacks.onInventory());
+
+        this.characteristicsButton = new Button(x, rowY(3), ESC_BUTTON_W, ESC_BUTTON_H, 'CHARACTERISTICS',
+            () => this.callbacks.onCharacteristics && this.callbacks.onCharacteristics());
+
+        this.saveButton = new Button(x, rowY(4), ESC_BUTTON_W, ESC_BUTTON_H, 'SAVE',
+            () => this.callbacks.onSave && this.callbacks.onSave());
+
+        this.loadButton = new Button(x, rowY(5), ESC_BUTTON_W, ESC_BUTTON_H, 'LOAD',
+            () => this.callbacks.onLoad && this.callbacks.onLoad());
+
+        this.settingsButton = new Button(x, rowY(6), ESC_BUTTON_W, ESC_BUTTON_H, 'SETTINGS',
+            () => this.callbacks.onSettings && this.callbacks.onSettings());
+
+        this.controlsButton = new Button(x, rowY(7), ESC_BUTTON_W, ESC_BUTTON_H, 'CONTROLS',
+            () => this.callbacks.onControls && this.callbacks.onControls());
+
+        this.closeButton = new Button(x, rowY(8), ESC_BUTTON_W, ESC_BUTTON_H, 'FERMER',
+            () => this.close());
+
+        this.buttons = [
+            this.characterButton, this.equipmentButton, this.inventoryButton,
+            this.characteristicsButton, this.saveButton, this.loadButton,
+            this.settingsButton, this.controlsButton, this.closeButton,
+        ];
+    }
+
+    open() {
+        this.visible = true;
+    }
+
+    close() {
+        this.visible = false;
+        if (this.callbacks.onClose) this.callbacks.onClose();
+    }
+
+    update() {
+        if (!this.visible) return;
+        for (const button of this.buttons) {
+            button.update();
+        }
+    }
+
+    render(ctx) {
+        if (!this.visible) return;
+
+        ctx.fillStyle = ESC_BG_COLOR;
+        ctx.fillRect(0, 0, this.width, this.height);
+
+        for (const button of this.buttons) {
+            button.render(ctx);
+        }
+    }
+}
