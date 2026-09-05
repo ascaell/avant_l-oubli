@@ -7,11 +7,13 @@
 // ============================================================
 
 const COLOR = {
-    normal: '#B85C38',   // terracotta
-    hover: '#D99A45',    // ocre
-    pressed: '#8E4228',  // terracotta assombri
-    border: '#E6B85C',   // doré
-    text: '#E8C99B',     // beige
+    normal: '#B85C38',    // terracotta
+    hover: '#D99A45',     // ocre
+    pressed: '#8E4228',   // terracotta assombri
+    disabled: '#59636E',  // gris froid (futur)
+    border: '#E6B85C',    // doré
+    text: '#E8C99B',      // beige
+    textDisabled: '#7A858F', // gris acier
 };
 
 export class Button {
@@ -23,6 +25,7 @@ export class Button {
         this.label = label;
         this.onClick = onClick;
         this.state = 'normal';
+        this.disabled = false;
     }
 
     /** Vrai si (px, py) tombe dans le rectangle du bouton. */
@@ -31,7 +34,16 @@ export class Button {
             && py >= this.y && py <= this.y + this.h;
     }
 
+    setDisabled(disabled) {
+        this.disabled = disabled;
+    }
+
     update(input) {
+        if (this.disabled) {
+            this.state = 'disabled';
+            return;
+        }
+
         const { x: mx, y: my } = input.getMousePosition();
 
         if (!this._contains(mx, my)) {
@@ -56,7 +68,7 @@ export class Button {
         ctx.lineWidth = 2;
         ctx.strokeRect(this.x, this.y, this.w, this.h);
 
-        ctx.fillStyle = COLOR.text;
+        ctx.fillStyle = this.disabled ? COLOR.textDisabled : COLOR.text;
         ctx.font = '16px sans-serif';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
