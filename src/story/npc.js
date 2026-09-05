@@ -1,53 +1,61 @@
-constructor(cfg) {
-  this.id = cfg.id;
-  this.name = cfg.name;
-  this.x = cfg.x;
-  this.y = cfg.y;
-  this.w = 32;
-  this.h = 32;
-  this.sprite = cfg.sprite;
-  this.dialogues = cfg.dialogues;
-  this.role = cfg.role || '';
-  this.canInteract = false;
-}
+// src/world/npc.js
+// Responsable : Carmella
+//
+// PNJ du monde : position, sprite, dialogues (par époque : futur/passé),
+// et détection de proximité pour savoir quand le joueur peut interagir.
 
-updateProximity(player)
-{
-  const dx = (this.x + this.w / 2) - (player.x + player.w / 2);
-  const dy = (this.y + this.h / 2) - (player.y + player.h / 2);
-  const dist = Math.sqrt(dx * dx + dy * dy);
+import { openDialogue } from './dialogue.js';
 
-  this.canInteract = dist <= INTERACT_RANGE;
-}
+const INTERACT_RANGE = 48; // distance en pixels à laquelle "E" apparaît
 
-getLines(era, questFlags)
-{
-  const d = this.dialogues[era];
-  if (typeof d === 'function') return d(questFlags);
-  return d || ["..."];
-}
-
-tryInteract(era, questFlags)
-{
-  if (!this.canInteract) return false;
-  const lines = this.getLines(era, questFlags);
-  openDialogue(this.name, lines);
-  return true;
-}
-
-render(ctx, assetsGet)
-{
-  const img = assetsGet ? assetsGet(this.sprite) : null;
-  if (img) {
-    ctx.drawImage(img, this.x, this.y, this.w, this.h);
-  } else {
-    ctx.fillStyle = '#D99A45';
-    ctx.fillRect(this.x, this.y, this.w, this.h);
+export class NPC {
+  constructor(cfg) {
+    this.id = cfg.id;
+    this.name = cfg.name;
+    this.x = cfg.x;
+    this.y = cfg.y;
+    this.w = 32;
+    this.h = 32;
+    this.sprite = cfg.sprite;
+    this.dialogues = cfg.dialogues;
+    this.role = cfg.role || '';
+    this.canInteract = false;
   }
-  if (this.canInteract) {
-    ctx.fillStyle = '#E6B85C';
-    ctx.font = '12px monospace';
-    ctx.fillText('E', this.x + this.w / 2 - 3, this.y - 6);
+
+  updateProximity(player) {
+    const dx = (this.x + this.w / 2) - (player.x + player.w / 2);
+    const dy = (this.y + this.h / 2) - (player.y + player.h / 2);
+    const dist = Math.sqrt(dx * dx + dy * dy);
+
+    this.canInteract = dist <= INTERACT_RANGE;
+  }
+
+  getLines(era, questFlags) {
+    const d = this.dialogues[era];
+    if (typeof d === 'function') return d(questFlags);
+    return d || ["..."];
+  }
+
+  tryInteract(era, questFlags) {
+    if (!this.canInteract) return false;
+    const lines = this.getLines(era, questFlags);
+    openDialogue(this.name, lines);
+    return true;
+  }
+
+  render(ctx, assetsGet) {
+    const img = assetsGet ? assetsGet(this.sprite) : null;
+    if (img) {
+      ctx.drawImage(img, this.x, this.y, this.w, this.h);
+    } else {
+      ctx.fillStyle = '#D99A45';
+      ctx.fillRect(this.x, this.y, this.w, this.h);
+    }
+    if (this.canInteract) {
+      ctx.fillStyle = '#E6B85C';
+      ctx.font = '12px monospace';
+      ctx.fillText('E', this.x + this.w / 2 - 3, this.y - 6);
+    }
   }
 }
 
