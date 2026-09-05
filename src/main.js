@@ -4,10 +4,22 @@ import { Camera } from './core/camera.js';
 import { Assets } from './core/assets.js';
 import { SaveSystem } from './core/save.js';
 
-// Une seule instance de chaque système Core.
-const game = new Game();
+// Récupération du Canvas.
+const canvas = document.getElementById('game');
+
+// Taille temporaire du Canvas.
+canvas.width = 800;
+canvas.height = 600;
+
+// Création du moteur.
+const game = new Game(canvas);
+
+// Création des systèmes Core.
 const input = new Input();
+
 const camera = new Camera();
+camera.setPosition(100, 0);
+
 const assets = new Assets();
 const save = new SaveSystem();
 
@@ -23,16 +35,19 @@ game.systems.save = save;
 game.init();
 game.start();
 
-// --- Vérification console ---
+// Vérification console.
 console.log('[Core] initialisé.');
+
 console.log('[Core] systèmes branchés :', {
     input: game.systems.input !== null,
     camera: game.systems.camera !== null,
     assets: game.systems.assets !== null,
     save: game.systems.save !== null,
-    player: game.systems.player,   // null attendu
-    world: game.systems.world,    // null attendu
-    combat: game.systems.combat,   // null attendu
-    ui: game.systems.ui,       // null attendu
+    player: game.systems.player,
+    world: game.systems.world,
+    combat: game.systems.combat,
+    ui: game.systems.ui,
 });
+
+console.log('[Core] Canvas :', game.canvas);
 console.log('[Core] état du jeu :', game.state);
