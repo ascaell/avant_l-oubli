@@ -1,0 +1,30 @@
+:root {
+  --color-past-terracotta: #B85C38;
+  --color-past-ocre: #D99A45;
+  --color-past-beige: #E8C99B;
+  --color-past-gold: #E6B85C;
+  --color-future-bg: #171C24;
+  --color-future-steel: #7A858F;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: var(--color-future-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+canvas#game {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  background: #000;
+}
