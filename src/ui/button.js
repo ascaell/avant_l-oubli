@@ -6,6 +6,8 @@
 //  Utilisé par menu.js, hud.js, dialog.js, settings.js.
 // ============================================================
 
+import { getMouse } from '../core/input.js';
+
 const COLOR = {
     normal: '#B85C38',    // terracotta
     hover: '#D99A45',     // ocre
@@ -26,6 +28,7 @@ export class Button {
         this.onClick = onClick;
         this.state = 'normal';
         this.disabled = false;
+        this._wasDown = false; // état de la souris à la frame précédente, pour détecter le clic
     }
 
     /** Vrai si (px, py) tombe dans le rectangle du bouton. */
@@ -38,24 +41,28 @@ export class Button {
         this.disabled = disabled;
     }
 
-    update(input) {
+    update() {
         if (this.disabled) {
             this.state = 'disabled';
             return;
         }
 
-        const { x: mx, y: my } = input.getMousePosition();
+        const mouse = getMouse(); // { x, y, down }
 
-        if (!this._contains(mx, my)) {
+        if (!this._contains(mouse.x, mouse.y)) {
             this.state = 'normal';
+            this._wasDown = false;
             return;
         }
 
-        this.state = input.isMouseButtonDown(0) ? 'pressed' : 'hover';
+        this.state = mouse.down ? 'pressed' : 'hover';
 
-        if (input.isMouseButtonPressed(0) && this.onClick) {
+        // "Clic" = transition relâché → maintenu, détectée nous-mêmes puisque
+        // getMouse() ne donne que l'état courant (pas de "pressed" one-shot).
+        if (!this._wasDown && mouse.down && this.onClick) {
             this.onClick();
         }
+        this._wasDown = mouse.down;
     }
 
     render(ctx) {
