@@ -1,24 +1,34 @@
 export class Enemy {
-    constructor(name, hp, attack, spriteColor) {
-        this.name = name;
-        this.maxHp = hp;
-        this.hp = hp;
-        this.attack = attack;
-        this.spriteColor = spriteColor || '#7f8c8d';
+    constructor(x, y, health = 50, speed = 1.5, force = 8, defense = 5) {
+        this.x = x;
+        this.y = y;
+        this.health = health;
+        this.maxHealth = health;
+        this.speed = speed;
+        this.force = force;
+        this.defense = defense;
+        this.width = 32;
+        this.height = 32;
+        this.xpReward = 25;
+    }
+
+    update(dt, player) {
+        const dx = player.x - this.x;
+        const dy = player.y - this.y;
+        const dist = Math.hypot(dx, dy);
+
+        if (dist > 5) {
+            this.x += (dx / dist) * this.speed * dt;
+            this.y += (dy / dist) * this.speed * dt;
+        }
     }
 
     takeDamage(amount) {
-        this.hp = Math.max(0, this.hp - amount);
-        return this.hp === 0;
+        this.health = Math.max(0, this.health - amount);
     }
-}
 
-export function createRandomEnemy() {
-    const types = [
-        { name: "Ombre Errante", hp: 35, atk: 7, color: "#4a3b5c" },
-        { name: "Fragment d'Oubli", hp: 45, atk: 10, color: "#2c3e50" },
-        { name: "Spectre Corrompu", hp: 30, atk: 13, color: "#95a5a6" }
-    ];
-    const data = types[Math.floor(Math.random() * types.length)];
-    return new Enemy(data.name, data.hp, data.atk, data.color);
+    draw(ctx) {
+        ctx.fillStyle = '#e74c3c';
+        ctx.fillRect(this.x, this.y, this.width, this.height);
+    }
 }
