@@ -8,6 +8,7 @@
 // ============================================================
 
 import { isKeyDown } from '../core/input.js';
+import { Stats } from './stats.js';
 
 // ── Palette (passé chaud) ───────────────────────────────────
 const C = {
@@ -51,6 +52,7 @@ export class Player {
         this.animTimer = 0;
         this.idleTimer = 0;
         this.alive = true;
+        this.stats = new Stats();
     }
 
     /** Hitbox pieds (pour collisions) */
@@ -232,10 +234,11 @@ export class Player {
     }
 
     toSaveData() {
-        return { x: this.x, y: this.y, direction: this.direction, alive: this.alive };
+        return { x: this.x, y: this.y, direction: this.direction, alive: this.alive, stats: this.stats.toSaveData() };
     }
 
     fromSaveData(data) {
-        Object.assign(this, data);
+        Object.assign(this, { x: data.x, y: data.y, direction: data.direction, alive: data.alive });
+        if (data.stats) this.stats.fromSaveData(data.stats);
     }
 }
