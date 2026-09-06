@@ -38,8 +38,8 @@ export class Hud {
     render(ctx) {
         const { hp, maxHp, level, xp, xpToNext } = this.data;
 
-        this._renderBar(ctx, MARGIN, MARGIN, HP_BAR_W, HP_BAR_H, hp / maxHp, COLOR.hpFill);
-        this._renderBar(ctx, MARGIN, MARGIN + HP_BAR_H + 8, XP_BAR_W, XP_BAR_H, xp / xpToNext, COLOR.xpFill);
+        this.renderBar(ctx, MARGIN, MARGIN, HP_BAR_W, HP_BAR_H, hp / maxHp, COLOR.hpFill);
+        this.renderBar(ctx, MARGIN, MARGIN + HP_BAR_H + 8, XP_BAR_W, XP_BAR_H, xp / xpToNext, COLOR.xpFill);
 
         ctx.fillStyle = COLOR.text;
         ctx.font = '14px sans-serif';
@@ -49,7 +49,7 @@ export class Hud {
         ctx.fillText(`Niveau ${level}`, MARGIN, MARGIN + HP_BAR_H + 8 + XP_BAR_H + 16);
     }
 
-    _renderBar(ctx, x, y, w, h, ratio, fillColor) {
+    renderBar(ctx, x, y, w, h, ratio, fillColor) {
         const clamped = Math.max(0, Math.min(1, ratio));
 
         ctx.fillStyle = COLOR.barBg;
