@@ -23,8 +23,7 @@ export class Boss extends Enemy {
         }
 
         this.specialAttackTimer += dt;
-        const threshold = dt < 5 ? 5.0 : 5000; // Gère dt en secondes ou millisecondes
-        if (this.specialAttackTimer >= threshold) {
+        if (this.specialAttackTimer >= 5.0) {
             this.specialAttack(player);
             this.specialAttackTimer = 0;
         }

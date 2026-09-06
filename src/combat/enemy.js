@@ -18,8 +18,8 @@ export class Enemy {
         const dist = Math.hypot(dx, dy);
 
         if (dist > 5) {
-            this.x += (dx / dist) * this.speed;
-            this.y += (dy / dist) * this.speed;
+            this.x += (dx / dist) * this.speed * dt;
+            this.y += (dy / dist) * this.speed * dt;
         }
     }
 
