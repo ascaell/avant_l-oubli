@@ -1,12 +1,12 @@
 export class Enemy {
-    constructor(x, y) {
+    constructor(x, y, health = 50, speed = 1.5, force = 8, defense = 5) {
         this.x = x;
         this.y = y;
-        this.health = 50;
-        this.maxHealth = 50;
-        this.speed = 1.5;
-        this.force = 8;
-        this.defense = 5;
+        this.health = health;
+        this.maxHealth = health;
+        this.speed = speed;
+        this.force = force;
+        this.defense = defense;
         this.width = 32;
         this.height = 32;
         this.xpReward = 25;

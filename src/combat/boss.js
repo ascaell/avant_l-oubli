@@ -1,34 +1,48 @@
-import { Enemy } from './enemy.js';
+import { Enemy } from './Enemy.js';
 
 export class Boss extends Enemy {
-    constructor(name, hp, attack, title, spriteColor) {
-        super(name, hp, attack, spriteColor || '#c0392b');
-        this.title = title;
-        this.isCinematicActive = true;
-        this.cinematicTimer = 0;
-        this.cinematicDuration = 3.5; // Durée de l'intro en secondes
+    constructor(x, y, name = "Malakor", hp = 200, attack = 15, spriteColor = '#8e44ad') {
+        super(x, y, hp, 1.0, attack, 10);
+        this.name = name;
+        this.spriteColor = spriteColor;
+        this.width = 64;
+        this.height = 64;
+        this.xpReward = 150;
         this.phase = 1;
+        this.specialAttackTimer = 0;
+        this.isCinematicActive = false;
     }
 
-    updateCinematic(deltaTime) {
-        if (!this.isCinematicActive) return;
-        this.cinematicTimer += deltaTime;
-        if (this.cinematicTimer >= this.cinematicDuration) {
-            this.isCinematicActive = false;
+    update(dt, player) {
+        super.update(dt, player);
+
+        if (this.health <= this.maxHealth / 2 && this.phase === 1) {
+            this.phase = 2;
+            this.speed = 1.8;
+            this.force = Math.round(this.force * 1.5);
+        }
+
+        this.specialAttackTimer += dt;
+        const threshold = dt < 5 ? 5.0 : 5000; // Gère dt en secondes ou millisecondes
+        if (this.specialAttackTimer >= threshold) {
+            this.specialAttack(player);
+            this.specialAttackTimer = 0;
         }
     }
 
-    specialAttack() {
-        return Math.floor(this.attack * 1.75);
+    specialAttack(player) {
+        if (player && player.stats) {
+            const specialDamage = Math.max(5, (this.force * 1.5) - (player.stats.defense || 0));
+            player.stats.hp = Math.max(0, player.stats.hp - specialDamage);
+        }
     }
-}
 
-export function createMalakorBoss() {
-    return new Boss(
-        "Malakor",
-        160,
-        18,
-        "Seigneur du Temps Perdu et des Abysses",
-        "#8e44ad"
-    );
+    draw(ctx) {
+        ctx.fillStyle = this.spriteColor;
+        ctx.fillRect(this.x, this.y, this.width, this.height);
+
+        ctx.fillStyle = '#ffffff';
+        ctx.font = '12px sans-serif';
+        ctx.fillText(`${this.name} (P${this.phase})`, this.x, this.y - 10);
+    }
 }
